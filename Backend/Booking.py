@@ -77,8 +77,13 @@ class Booking(webdriver.Chrome):
         search = self.find_element(By.NAME, 'ss')  #ada65db9b5
         search.clear()
         search.send_keys(place)
-        find_res = self.find_element(By.XPATH, '/html/body/div[3]/div[2]/div/form/div[1]/div[1]/div/div/div[2]/div/div/ul/li[1]')
+        # find_res1 = self.find_element(By.CSS_SELECTOR, 'div[data-testid="autocomplete-results-options"]')
+        time.sleep(5)
+        find_res = self.find_element(By.ID,'autocomplete-result-0')
+
         find_res.click()
+
+
         today = datetime.today()
 
         # Calculate tomorrow's date
@@ -141,12 +146,14 @@ class Booking(webdriver.Chrome):
                 i += 1
                 # for image and redirect link
 
-                anchor_tags = hotel.find_elements(By.CSS_SELECTOR,
-                                                  'a[data-testid="property-card-desktop-single-image"]')
-                for anchor in anchor_tags:
-                    Redirect_Link = anchor.get_attribute('href')
-                    img = anchor.find_element(By.TAG_NAME, 'img')
-                    Image_link = img.get_attribute('src')
+                # anchor_tags = hotel.find_elements(By.CSS_SELECTOR,
+                #                                   'a[data-testid="property-card-desktop-single-image"]')
+                # for anchor in anchor_tags:
+                #     Redirect_Link = anchor.get_attribute('href')
+                #     img = anchor.find_element(By.TAG_NAME, 'img')
+                #     Image_link = img.get_attribute('src')
+                redirect_link = hotel.find_element(By.TAG_NAME, 'a').get_attribute('href')
+                image_link = hotel.find_element(By.TAG_NAME, 'img').get_attribute('src')
 
                 price = hotel.find_element(By.CSS_SELECTOR,
                                            'span[data-testid="price-and-discounted-price"]').get_attribute(
@@ -159,8 +166,9 @@ class Booking(webdriver.Chrome):
                 x['Hotel_Name'] = hotel_name
                 x['BDT_Price'] = float(price[1].replace(',',''))
                 x['USD_Price'] = float(price[1].replace(',',''))*currency_usd
-                x['Image_Link'] = Image_link
-                x['Redirect_Link'] = Redirect_Link
+                x['Image_Link'] = image_link
+                x['Redirect_Link'] = redirect_link
+
                 collection1.insert_one(x)  # Inserting each hotel record into the MongoDB database
                 print(f"Added to DB: {x}")
                 ht.append(x)

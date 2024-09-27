@@ -51,23 +51,23 @@ run_in_batches(tasks, batch_size=10)
 # MongoDB connection and moving data between collections
 client = MongoClient('mongodb+srv://tmuhebbullah:Abcd1234..@cluster0.vxrd9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')  # Replace with your MongoDB URI if needed
 db = client['hotel_database']  # Replace with your database name
-collection1 = db['hotels_temp']
+# collection1 = db['hotels_temp']
 
 # Collection 2 - final data after processing
 collection2 = db['hotels']
 collection2.delete_many({})  # Remove all existing data from the second collection
 
 # Step 2: Move data from the first collection to the second collection
-all_data = list(collection1.find({}))  # Fetch all data from collection1
+all_data = list(collection2.find({}))  # Fetch all data from collection1
 print(all_data)
-if len(all_data) > 0:
-    # Insert into the second collection
-    collection2.insert_many(all_data)  # Insert all data into collection2
-    print(f"Moved {len(all_data)} records to the second collection.")
-
-    # Step 3: Optionally delete data from the first collection (if needed)
-else:
-    print("No data to move from collection1 to collection2.")
+# if len(all_data) > 0:
+#     # Insert into the second collection
+#     collection2.insert_many(all_data)  # Insert all data into collection2
+#     print(f"Moved {len(all_data)} records to the second collection.")
+#
+#     # Step 3: Optionally delete data from the first collection (if needed)
+# else:
+#     print("No data to move from collection1 to collection2.")
 
 # with Agoda() as Bot:
 #     Bot.land_first_page()

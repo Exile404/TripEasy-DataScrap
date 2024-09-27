@@ -135,13 +135,13 @@ class MakeMyTrip(webdriver.Chrome):
                 # print(f"Image src: {image_link}")
                 print(f"Price: {final_price}")
                 x['OTA']= 'MakeMyTrip.com'
-                x['Place'] = place
+                x['Place'] = place.lower()
                 if room_number >= 2:
                     x['Adult_Person'] = adult_number+1
                 else:
                     x['Adult_Person'] = adult_number
                 x['Room_Count'] = room_number
-                x['Hotel_Name'] = ht_name.lower()
+                x['Hotel_Name'] = ht_name
                 x['Redirect_Link'] = redirect_link
                 x['Image_Link'] = image_link
                 x['BDT_Price'] = float(final_price)*currency_bdt
